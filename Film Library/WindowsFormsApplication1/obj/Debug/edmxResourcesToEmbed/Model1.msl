@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="UsersDBModelStoreContainer" CdmEntityContainer="UsersDBEntities">
+    <EntitySetMapping Name="Movies">
+      <EntityTypeMapping TypeName="UsersDBModel.Movies">
+        <MappingFragment StoreEntitySet="Movies">
+          <ScalarProperty Name="IDMovie" ColumnName="IDMovie" />
+          <ScalarProperty Name="MovieName" ColumnName="MovieName" />
+          <ScalarProperty Name="Director" ColumnName="Director" />
+          <ScalarProperty Name="ReleasedDate" ColumnName="ReleasedDate" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="UsersDBModel.Users">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UniqueStatus" ColumnName="UniqueStatus" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Actors">
+      <EntityTypeMapping TypeName="UsersDBModel.Actors">
+        <MappingFragment StoreEntitySet="Actors">
+          <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IDActor" ColumnName="IDActor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MovieTypes">
+      <EntityTypeMapping TypeName="UsersDBModel.MovieTypes">
+        <MappingFragment StoreEntitySet="MovieTypes">
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="ID_MType" ColumnName="ID_MType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MovieDBTypes" TypeName="UsersDBModel.MovieDBTypes" StoreEntitySet="MovieDBTypes">
+      <EndProperty Name="Movies">
+        <ScalarProperty Name="IDMovie" ColumnName="IDMovie" />
+      </EndProperty>
+      <EndProperty Name="MovieTypes">
+        <ScalarProperty Name="ID_MType" ColumnName="ID_MType" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ActorsDBMovies" TypeName="UsersDBModel.ActorsDBMovies" StoreEntitySet="ActorsDBMovies">
+      <EndProperty Name="Actors">
+        <ScalarProperty Name="IDActor" ColumnName="IDActor" />
+      </EndProperty>
+      <EndProperty Name="Movies">
+        <ScalarProperty Name="IDMovie" ColumnName="IdMovie" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

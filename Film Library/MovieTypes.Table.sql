@@ -1,0 +1,5 @@
+﻿CREATE TABLE MovieTypes
+(
+	[ID_MType] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Type] NVARCHAR(50) NULL
+)

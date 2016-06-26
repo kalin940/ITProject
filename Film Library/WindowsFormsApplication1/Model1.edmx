@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="UsersDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Actors">
+          <Key>
+            <PropertyRef Name="IDActor" />
+          </Key>
+          <Property Name="IDActor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nationality" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'UsersDB.dbo.ActorsDBMovies' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ActorsDBMovies">
+          <Key>
+            <PropertyRef Name="IdMovie" />
+            <PropertyRef Name="IDActor" />
+          </Key>
+          <Property Name="IdMovie" Type="int" Nullable="false" />
+          <Property Name="IDActor" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'UsersDB.dbo.MovieDBTypes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MovieDBTypes">
+          <Key>
+            <PropertyRef Name="IDMovie" />
+            <PropertyRef Name="ID_MType" />
+          </Key>
+          <Property Name="IDMovie" Type="int" Nullable="false" />
+          <Property Name="ID_MType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="IDMovie" />
+          </Key>
+          <Property Name="IDMovie" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieName" Type="varchar" MaxLength="50" />
+          <Property Name="Director" Type="varchar" MaxLength="50" />
+          <Property Name="ReleasedDate" Type="datetime" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="IMDb" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="MovieTypes">
+          <Key>
+            <PropertyRef Name="ID_MType" />
+          </Key>
+          <Property Name="ID_MType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UniqueStatus" Type="nchar" MaxLength="10" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__ActorsDBM__IdMov__4222D4EF">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+          <End Role="ActorsDBMovies" Type="Self.ActorsDBMovies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="IDMovie" />
+            </Principal>
+            <Dependent Role="ActorsDBMovies">
+              <PropertyRef Name="IdMovie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ID_MType">
+          <End Role="MovieTypes" Type="Self.MovieTypes" Multiplicity="1" />
+          <End Role="MovieDBTypes" Type="Self.MovieDBTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovieTypes">
+              <PropertyRef Name="ID_MType" />
+            </Principal>
+            <Dependent Role="MovieDBTypes">
+              <PropertyRef Name="ID_MType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IDActor">
+          <End Role="Actors" Type="Self.Actors" Multiplicity="1" />
+          <End Role="ActorsDBMovies" Type="Self.ActorsDBMovies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Actors">
+              <PropertyRef Name="IDActor" />
+            </Principal>
+            <Dependent Role="ActorsDBMovies">
+              <PropertyRef Name="IDActor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IDMovie">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+          <End Role="MovieDBTypes" Type="Self.MovieDBTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="IDMovie" />
+            </Principal>
+            <Dependent Role="MovieDBTypes">
+              <PropertyRef Name="IDMovie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UsersDBModelStoreContainer">
+          <EntitySet Name="Actors" EntityType="Self.Actors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieTypes" EntityType="Self.MovieTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActorsDBMovies" EntityType="Self.ActorsDBMovies" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ActorsDBMovies].[IdMovie] AS [IdMovie], 
+    [ActorsDBMovies].[IDActor] AS [IDActor]
+    FROM [dbo].[ActorsDBMovies] AS [ActorsDBMovies]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MovieDBTypes" EntityType="Self.MovieDBTypes" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MovieDBTypes].[IDMovie] AS [IDMovie], 
+    [MovieDBTypes].[ID_MType] AS [ID_MType]
+    FROM [dbo].[MovieDBTypes] AS [MovieDBTypes]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__ActorsDBM__IdMov__4222D4EF" Association="Self.FK__ActorsDBM__IdMov__4222D4EF">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="ActorsDBMovies" EntitySet="ActorsDBMovies" />
+          </AssociationSet>
+          <AssociationSet Name="ID_MType" Association="Self.ID_MType">
+            <End Role="MovieTypes" EntitySet="MovieTypes" />
+            <End Role="MovieDBTypes" EntitySet="MovieDBTypes" />
+          </AssociationSet>
+          <AssociationSet Name="IDActor" Association="Self.IDActor">
+            <End Role="Actors" EntitySet="Actors" />
+            <End Role="ActorsDBMovies" EntitySet="ActorsDBMovies" />
+          </AssociationSet>
+          <AssociationSet Name="IDMovie" Association="Self.IDMovie">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="MovieDBTypes" EntitySet="MovieDBTypes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UsersDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="IDMovie" />
+          </Key>
+          <Property Name="IDMovie" Type="Int32" Nullable="false" />
+          <Property Name="MovieName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Director" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReleasedDate" Type="DateTime" Precision="3" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MovieTypes" Relationship="UsersDBModel.MovieDBTypes" FromRole="Movies" ToRole="MovieTypes" />
+          <NavigationProperty Name="Actors" Relationship="UsersDBModel.ActorsDBMovies" FromRole="Movies" ToRole="Actors" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UniqueStatus" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="UsersDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Movies" EntityType="Self.Movies" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Actors" EntityType="UsersDBModel.Actors" />
+          <EntitySet Name="MovieTypes" EntityType="UsersDBModel.MovieTypes" />
+          <AssociationSet Name="MovieDBTypes" Association="UsersDBModel.MovieDBTypes">
+            <End Role="MovieTypes" EntitySet="MovieTypes" />
+            <End Role="Movies" EntitySet="Movies" />
+          </AssociationSet>
+          <AssociationSet Name="ActorsDBMovies" Association="UsersDBModel.ActorsDBMovies">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="Actors" EntitySet="Actors" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Actors">
+          <Key>
+            <PropertyRef Name="IDActor" />
+          </Key>
+          <Property Name="IDActor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Movies" Relationship="UsersDBModel.ActorsDBMovies" FromRole="Actors" ToRole="Movies" />
+        </EntityType>
+        <EntityType Name="MovieTypes">
+          <Key>
+            <PropertyRef Name="ID_MType" />
+          </Key>
+          <Property Name="ID_MType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Movies" Relationship="UsersDBModel.MovieDBTypes" FromRole="MovieTypes" ToRole="Movies" />
+        </EntityType>
+        <Association Name="MovieDBTypes">
+          <End Type="UsersDBModel.MovieTypes" Role="MovieTypes" Multiplicity="*" />
+          <End Type="UsersDBModel.Movies" Role="Movies" Multiplicity="*" />
+        </Association>
+        <Association Name="ActorsDBMovies">
+          <End Type="UsersDBModel.Movies" Role="Movies" Multiplicity="*" />
+          <End Type="UsersDBModel.Actors" Role="Actors" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UsersDBModelStoreContainer" CdmEntityContainer="UsersDBEntities">
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="UsersDBModel.Movies">
+              <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="IDMovie" ColumnName="IDMovie" />
+                <ScalarProperty Name="MovieName" ColumnName="MovieName" />
+                <ScalarProperty Name="Director" ColumnName="Director" />
+                <ScalarProperty Name="ReleasedDate" ColumnName="ReleasedDate" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="UsersDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UniqueStatus" ColumnName="UniqueStatus" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Actors">
+            <EntityTypeMapping TypeName="UsersDBModel.Actors">
+              <MappingFragment StoreEntitySet="Actors">
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IDActor" ColumnName="IDActor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieTypes">
+            <EntityTypeMapping TypeName="UsersDBModel.MovieTypes">
+              <MappingFragment StoreEntitySet="MovieTypes">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ID_MType" ColumnName="ID_MType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MovieDBTypes" TypeName="UsersDBModel.MovieDBTypes" StoreEntitySet="MovieDBTypes">
+            <EndProperty Name="Movies">
+              <ScalarProperty Name="IDMovie" ColumnName="IDMovie" />
+            </EndProperty>
+            <EndProperty Name="MovieTypes">
+              <ScalarProperty Name="ID_MType" ColumnName="ID_MType" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ActorsDBMovies" TypeName="UsersDBModel.ActorsDBMovies" StoreEntitySet="ActorsDBMovies">
+            <EndProperty Name="Actors">
+              <ScalarProperty Name="IDActor" ColumnName="IDActor" />
+            </EndProperty>
+            <EndProperty Name="Movies">
+              <ScalarProperty Name="IDMovie" ColumnName="IdMovie" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

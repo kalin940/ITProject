@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UsersDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Movies">
+    <Key>
+      <PropertyRef Name="IDMovie" />
+    </Key>
+    <Property Name="IDMovie" Type="Int32" Nullable="false" />
+    <Property Name="MovieName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Director" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ReleasedDate" Type="DateTime" Precision="3" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="MovieTypes" Relationship="UsersDBModel.MovieDBTypes" FromRole="Movies" ToRole="MovieTypes" />
+    <NavigationProperty Name="Actors" Relationship="UsersDBModel.ActorsDBMovies" FromRole="Movies" ToRole="Actors" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UniqueStatus" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="UsersDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Movies" EntityType="Self.Movies" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <EntitySet Name="Actors" EntityType="UsersDBModel.Actors" />
+    <EntitySet Name="MovieTypes" EntityType="UsersDBModel.MovieTypes" />
+    <AssociationSet Name="MovieDBTypes" Association="UsersDBModel.MovieDBTypes">
+      <End Role="MovieTypes" EntitySet="MovieTypes" />
+      <End Role="Movies" EntitySet="Movies" />
+    </AssociationSet>
+    <AssociationSet Name="ActorsDBMovies" Association="UsersDBModel.ActorsDBMovies">
+      <End Role="Movies" EntitySet="Movies" />
+      <End Role="Actors" EntitySet="Actors" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Actors">
+    <Key>
+      <PropertyRef Name="IDActor" />
+    </Key>
+    <Property Name="IDActor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Movies" Relationship="UsersDBModel.ActorsDBMovies" FromRole="Actors" ToRole="Movies" />
+  </EntityType>
+  <EntityType Name="MovieTypes">
+    <Key>
+      <PropertyRef Name="ID_MType" />
+    </Key>
+    <Property Name="ID_MType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Movies" Relationship="UsersDBModel.MovieDBTypes" FromRole="MovieTypes" ToRole="Movies" />
+  </EntityType>
+  <Association Name="MovieDBTypes">
+    <End Type="UsersDBModel.MovieTypes" Role="MovieTypes" Multiplicity="*" />
+    <End Type="UsersDBModel.Movies" Role="Movies" Multiplicity="*" />
+  </Association>
+  <Association Name="ActorsDBMovies">
+    <End Type="UsersDBModel.Movies" Role="Movies" Multiplicity="*" />
+    <End Type="UsersDBModel.Actors" Role="Actors" Multiplicity="*" />
+  </Association>
+</Schema>
